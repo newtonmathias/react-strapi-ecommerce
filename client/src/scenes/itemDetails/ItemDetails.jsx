@@ -18,6 +18,7 @@ const ItemDetails = () => {
   const [count, setCount] = useState(1);
   const [item, setItem] = useState(null);
   const [items, setItems] = useState([]);
+  const baseApiURL = process.env.REACT_APP_API_URL;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -25,7 +26,7 @@ const ItemDetails = () => {
 
   async function getItem() {
     const item = await fetch(
-      `http://localhost:1337/api/items/${itemId}?populate=image`,
+      `${baseApiURL}/api/items/${itemId}?populate=image`,
       {
         method: "GET",
       }
@@ -35,12 +36,9 @@ const ItemDetails = () => {
   }
 
   async function getItems() {
-    const items = await fetch(
-      `http://localhost:1337/api/items?populate=image`,
-      {
-        method: "GET",
-      }
-    );
+    const items = await fetch(`${baseApiURL}/api/items?populate=image`, {
+      method: "GET",
+    });
     const itemsJson = await items.json();
     setItems(itemsJson.data);
   }
@@ -59,7 +57,7 @@ const ItemDetails = () => {
             alt={item?.name}
             width="100%"
             height="100%"
-            src={`http://localhost:1337${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+            src={`${baseApiURL}${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
             style={{ objectFit: "contain" }}
           />
         </Box>
@@ -73,7 +71,7 @@ const ItemDetails = () => {
 
           <Box m="65px 0 25px 0">
             <Typography variant="h3">{item?.attributes?.name}</Typography>
-            <Typography>${item?.attributes?.price}</Typography>
+            <Typography>KSH.{item?.attributes?.price}</Typography>
             <Typography sx={{ mt: "20px" }}>
               {item?.attributes?.longDescription}
             </Typography>

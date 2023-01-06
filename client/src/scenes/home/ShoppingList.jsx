@@ -13,16 +13,16 @@ const ShoppingList = () => {
   const [value, setValue] = useState("all");
   const items = useSelector((state) => state.cart.items);
   const breakPoint = useMediaQuery("(min-width:600px)");
-  console.log(items);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const baseApiURL = process.env.REACT_APP_API_URL;
+
   async function getItems() {
-    const items = await fetch(
-      "http://localhost:1337/api/items?populate=image",
-      { method: "GET" }
-    );
+    const items = await fetch(`${baseApiURL}/api/items?populate=image`, {
+      method: "GET",
+    });
     const itemsJson = await items.json();
     dispatch(setItems(itemsJson.data));
   }

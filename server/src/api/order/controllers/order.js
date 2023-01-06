@@ -1,5 +1,6 @@
 "use strict";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const baseURL = process.env.REACT_APP_URL;
 
 /**
  * order controller
@@ -20,7 +21,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
           return {
             price_data: {
-              currency: "usd",
+              currency: "kes",
               product_data: {
                 name: item.name,
               },
@@ -36,8 +37,8 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         payment_method_types: ["card"],
         customer_email: email,
         mode: "payment",
-        success_url: "http://localhost:3000/checkout/success",
-        cancel_url: "http://localhost:3000",
+        success_url: `${baseURL}/checkout/success`,
+        cancel_url: baseURL,
         line_items: lineItems,
       });
 

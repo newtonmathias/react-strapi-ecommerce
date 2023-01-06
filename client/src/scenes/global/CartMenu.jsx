@@ -24,6 +24,7 @@ const CartMenu = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
+  const baseApiURL = process.env.REACT_APP_API_URL;
 
   const totalPrice = cart.reduce((total, item) => {
     return total + item.count * item.attributes.price;
@@ -68,7 +69,7 @@ const CartMenu = () => {
                       alt={item?.name}
                       width="123px"
                       height="164px"
-                      src={`http://localhost:1337${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                      src={`${baseApiURL}${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
                     />
                   </Box>
                   <Box flex="1 1 60%">
@@ -108,7 +109,7 @@ const CartMenu = () => {
                         </IconButton>
                       </Box>
                       <Typography fontWeight="bold">
-                        ${item.attributes.price}
+                        KSH.{item.attributes.price}
                       </Typography>
                     </FlexBox>
                   </Box>
@@ -122,7 +123,7 @@ const CartMenu = () => {
           <Box m="20px 0">
             <FlexBox m="20px 0">
               <Typography fontWeight="bold">SUBTOTAL</Typography>
-              <Typography fontWeight="bold">${totalPrice}</Typography>
+              <Typography fontWeight="bold">KSH.{totalPrice}</Typography>
             </FlexBox>
             <Button
               sx={{
